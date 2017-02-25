@@ -12,10 +12,11 @@ var authorization = require('./auth');
 
 // Create a new Express application.
 var app = express();
+var helpers = require('express-helpers')(app);
 
-// Configure view engine to render EJS templates
+// Configure view engine to render pug templates
 app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
+app.set('view engine', 'pug');
 
 // Use application-level middleware for common functionality
 app.use(logger('dev'));
