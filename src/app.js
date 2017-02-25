@@ -3,6 +3,7 @@ var path = require('path');
 var logger = require('morgan');
 var passport = require('passport');
 var cookieParser = require('cookie-parser');
+var expressSession = require('express-session');
 var bodyParser = require('body-parser');
 var indexRoute = require('./routes/index');
 var loginRoute = require('./routes/login');
@@ -22,8 +23,8 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(require('cookie-parser')());
-app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(cookieParser());
+app.use(expressSession({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 
 // Initialize Passport and restore authentication state, if any, from the session
 authorization.setup();
