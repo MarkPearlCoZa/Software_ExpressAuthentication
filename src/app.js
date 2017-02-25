@@ -4,6 +4,7 @@ var logger = require('morgan');
 var passport = require('passport');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
+var expressHelpers = require('express-helpers');
 var bodyParser = require('body-parser');
 var indexRoute = require('./routes/index');
 var loginRoute = require('./routes/login');
@@ -13,7 +14,7 @@ var authorization = require('./auth');
 
 // Create a new Express application.
 var app = express();
-var helpers = require('express-helpers')(app);
+var helpers = expressHelpers(app);
 
 // Configure view engine to render pug templates
 app.set('views', __dirname + '/views');
