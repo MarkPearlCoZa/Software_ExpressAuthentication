@@ -19,6 +19,7 @@ var helpers = expressHelpers(app);
 // Configure view engine to render pug templates
 app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
+app.use(express.static(path.join(__dirname, '/public')));
 
 // Use application-level middleware for common functionality
 app.use(logger('dev'));

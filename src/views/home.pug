@@ -1,11 +1,4 @@
-html
-  include includes/head.pug
+include includes/layout.pug
 
-block content
-  .main.container
-    if (!user) 
-      p Welcome! Please 
-      a(href='/login') log in
-    else
-      p Hello, #{user.username}. View your 
-      a(href='/profile') profile
+p Hello, 
+a(href='/profile') profile
