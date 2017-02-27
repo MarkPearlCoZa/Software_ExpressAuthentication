@@ -1,4 +1,6 @@
-include includes/layout.pug
+extends layout.pug
 
-p Hello, 
-a(href='/profile') profile
+block content
+.row
+  p Hello, 
+  a(href='/profile') profile
