@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Express Login",
   "scripts": {
-    "start": "node ./build/bin/www",
+    "start": "node ./build/app.js",
     "restart": "npm run build && npm run start",
     "clean": "rm -rf build && mkdir build",
     "build": "npm run getBootstrap && npm run clean && babel src -d build --copy-files",

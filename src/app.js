@@ -1,42 +1,60 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var passport = require('passport');
-var cookieParser = require('cookie-parser');
-var expressSession = require('express-session');
-var expressHelpers = require('express-helpers');
-var bodyParser = require('body-parser');
-var indexRoute = require('./routes/index');
-var loginRoute = require('./routes/login');
-var logoutRoute = require('./routes/logout');
-var profileRoute = require('./routes/profile');
-var authorization = require('./auth');
+#!/usr/bin/env node
 
-// Create a new Express application.
-var app = express();
-var helpers = expressHelpers(app);
+var app = require('./prog.js');
+var debug = require('debug')('myApp:server');
+var http = require('http');
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
-// Configure view engine to render pug templates
-app.set('views', __dirname + '/views');
-app.set('view engine', 'pug');
-app.use(express.static(path.join(__dirname, '/public')));
+var server = http.createServer(app);
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
 
-// Use application-level middleware for common functionality
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(expressSession({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+function normalizePort(val) {
+  var port = parseInt(val, 10);
 
-// Initialize Passport and restore authentication state, if any, from the session
-authorization.setup();
-app.use(passport.initialize());
-app.use(passport.session());
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
 
-// Define routes
-app.use('/', indexRoute);
-app.use('/login', loginRoute);
-app.use('/profile', profileRoute);
-app.use('/logout', logoutRoute);
-  
-module.exports = app;
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
